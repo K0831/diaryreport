@@ -30,33 +30,53 @@ body {
 		background-position: 0% 50%;
 	}
 }
-.container-fluid {
-	width: 100%;
-	position: absolute;
-	top: 20%;
-}
+/*.container-fluid {*/
+	/*width: 100%;*/
+	/*position: absolute;*/
+/*}*/
 
+ .center{
+      margin-top:8%;
+  }
+  
 @media (min-width: 768px) {
-  /* ウインドウ幅500px以上の時に適用されるスタイル */
+   
   h1 {
       font-size:90px;
   }
   
+ 
   h2{
-      margin-top:10%;
+      margin-top:5%;
   }
   
   p{
       font-size:30px;
   }
+  
 }
 
 @media(max-width:414px){
     h2{
-        margin-top:15%;
+        margin-top:11%;
     }
+    .center{
+      margin-top:12%;
+  }
 }
 
+.btn{
+    text-decoration:none;
+    color:#fff;
+    background-color:transparent;
+    border: 4px solid #fff; 
+}
+
+.btn:active{
+    text-decoration: none;
+    color:grey;
+    background-color:#fff;
+}
 
         </style>
     </head>
