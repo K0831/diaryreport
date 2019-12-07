@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if(Auth::check())
+
+{{ Auth::user()->name }}
+
+
+@else
 <div class="center">
     <div class="text-center">
         <h1 class="welcome-h1">DiaryReport</h1>
@@ -10,5 +16,6 @@
     </div>
 </div>
 
+@endif
 
 @endsection
