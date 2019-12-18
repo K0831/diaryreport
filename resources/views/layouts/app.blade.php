@@ -5,92 +5,20 @@
         <title>DiaryReport</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-        <!-- Styles -->
-        <style>
-        
-body {
-	margin: 0;
-	width: 100%;
-	height: 100vh;
-	font-family: "Exo", sans-serif;
-	color: #fff;
-	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 400% 400%;
-	animation: gradientBG 4.5s ease infinite;
-}
-
-@keyframes gradientBG {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
-/*.container-fluid {*/
-	/*width: 100%;*/
-	/*position: absolute;*/
-/*}*/
-
- .center{
-      margin-top:8%;
-  }
-  
-@media (min-width: 768px) {
-   
-  h1 {
-      font-size:90px;
-  }
-  
- 
-  h2{
-      margin-top:5%;
-  }
-  
-  p{
-      font-size:25px;
-  }
-  
-}
-
-@media(max-width:414px){
-    h2{
-        margin-top:11%;
-    }
-    .center{
-      margin-top:12%;
-  }
-}
-
-.btn{
-    text-decoration:none;
-    color:#fff;
-    background-color:transparent;
-    border: 4px solid #fff; 
-}
-
-.btn:active{
-    text-decoration: none;
-    color:grey;
-    background-color:#fff;
-}
-
-        </style>
+        <link rel="stylesheet" href="css/layout.css">
+        <!--<style></style>-->
     </head>
     <body>
        
        @include('commons.navbar')
        
-       <div class="container-fluid">
+       <div class="container">
            
            @include('commons.error_message')
            
            @yield('content')
        </div>
-    
+       
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>

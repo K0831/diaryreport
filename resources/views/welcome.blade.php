@@ -3,9 +3,11 @@
 @section('content')
 
 @if(Auth::check())
-
-{{ Auth::user()->name }}
-
+    <div class="row">
+        <div class="col-8 offset-2 mypage">
+               @include('layouts.mypage_profile')
+        </div>
+    </div>
 
 @else
 <div class="center">
