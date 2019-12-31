@@ -4,14 +4,14 @@
         <p>アイコンが登録されていません。</p>
     @endif
     
-    @if(isset($name))
-        <p>{{ $name }}</p>
+    @if(isset($profiles->name))
+        <p>{{ $profiles->name }}</p>
     @else
         <p>名前が登録されていません。</p>
     @endif
     
-    @if(isset($content))
-        <p>{{ $content }}</p>
+    @if(isset($profiles->content))
+        <p>{{ $profiles->content }}</p>
     @else
         <p>自己紹介が登録されていません。</p>
     @endif

@@ -17,7 +17,7 @@
                 {!! Form::label('content','自己紹介',['class'=>'h5']) !!}
                 {!! Form::textarea('content',old('content'),['class'=>'form-control']) !!}
             </div>
-             {!! Form::submit('設定',['class'=>'btn btn-block mt-4']) !!}
+             {!! Form::submit('設定',['class'=>'btn btn-block btn-outline-light mt-4']) !!}
             {!! Form::close() !!}
             
 

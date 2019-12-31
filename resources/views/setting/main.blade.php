@@ -6,7 +6,7 @@
         <ul class="nav nav-tabs">
             <li class="nav-item">{!! link_to_route('profile.get','プロフィール',[],['class'=>'nav-link']) !!}</li>
             <li class="nav-item mt-3"><a href="/" class="nav-link">習慣目標</a></li>
-            <li class="nav-item mt-3"><a href="/" class="nav-link">日報</a></li>
+            <li class="nav-item mt-3">{!! link_to_route('report.index','学習日報',[],['class'=>'nav-link']) !!}</li>
             </ul>
     </div>
     <div class="col-9">
@@ -14,10 +14,9 @@
             @yield('profile')
         </div>
         <div class="main-2">
-            <!--@yield('plan')-->
         </div>
         <div class="main-3">
-            <!--@yield('report')-->
+            @yield('report')
         </div>
     </div>
 </div>

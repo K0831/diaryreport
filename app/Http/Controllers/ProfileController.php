@@ -19,24 +19,24 @@ class ProfileController extends Controller
     
     public function create(){
         
-        
-            
             $user = Auth::user();
-            $count = $user->profile->count();
+            $count = $user->profiles()->count();
     
             if($count===0){
                  return view('setting.profile');
             }
-            else{$profile = Profile::orderBy('id','desc')->first();
+            else{
+                $profiles = $user->profiles()->orderBy('id','desc')->first();
                
-                 $is_image = false;
-                    if (Storage::disk('local')->exists('public/profile_images/' . Auth::id() . '.jpg')) {
-                         $is_image = true;
-                    }
+                $is_image = false;
+                if (
+                    Storage::disk('local')->exists('public/profile_images/' . Auth::id() . '.jpg')) {
+                    $is_image = true;
+                }
             
-                 return view('setting.edit', ['profile'=>$profile,
-                                'is_image'=>$is_image,]);
-                } 
+                 return view('setting.edit', ['profiles'=>$profiles,
+                                             'is_image'=>$is_image,]);
+            } 
         
         
     }
@@ -53,47 +53,55 @@ class ProfileController extends Controller
             'image_url' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
         
-        $request->image_url->storeAs('public/profile_images', Auth::id() . '.jpg');
+        $request->user()->profiles()->create([
+            'name'=>$request->name,
+            'content' => $request->content,
+            'user_id'=>Auth::user()->id,
+        ]);
         
+        $user = Auth::user();
+        $profiles = $user->profiles()->orderBy('id','desc')->first();
+        $reports = $user->reports()->orderBy('id','desc')->get();
+        
+        $request->image_url->storeAs('public/profile_images', Auth::id() . '.jpg');
         $is_image = false;
         if (Storage::disk('local')->exists('public/profile_images/' . Auth::id() . '.jpg')) {
             $is_image = true;
         }
-        $profile = new Profile();
-        $profile->name = $request->name;
-        $profile->content = $request->content;
-        $profile->user_id = Auth::user()->id;
-        $profile->save();
         
         return view('welcome', ['is_image' => $is_image,
-                                'name'=>$profile->name,
-                                'content'=>$profile->content,
-                                'user_id'=>$profile->user_id]);
+                                'profiles'=>$profiles,
+                                'reports'=>$reports]);
     }
     
     public function update(Request $request,$id){
         
         $this->validate($request, [
-            'name' => 'required|string|max:191',
-            'content' => 'required|string|max:191',
-            'image_url' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'name' => 'string|max:191',
+            'content' => 'string|max:191',
+            'image_url' => 'file|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+        $user = Auth::user();
         
-        $profile = \App\Profile::find($id);
-        $profile->name = $request->name;
-        $profile->content = $request->content;
-        $request->image_url->storeAs('public/profile_images', Auth::id() . '.jpg');
-        $profile->save();
+        $profiles = $user->profiles()->find($id);
+        $profiles->name = $request->name;
+        $profiles->content = $request->content;
+        $profiles->save();
         
+        $profiles = $user->profiles()->orderBy('id','desc')->first();
+        $reports = $user->reports()->orderBy('id','desc')->get();
+        
+        
+        $requests->image_url->storeAs('public/profile_images', Auth::id() . '.jpg');
         $is_image = false;
         if (Storage::disk('local')->exists('public/profile_images/' . Auth::id() . '.jpg')) {
             $is_image = true;
         }
         
+        
         return view('welcome', ['is_image' => $is_image,
-                                'name'=>$profile->name,
-                                'content'=>$profile->content,
-                                'user_id'=>$profile->user_id]);
+                                '$profiles'=>$profiles,
+                                'reports'=>$reports]);
         
     }
 }

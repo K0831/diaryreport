@@ -29,4 +29,7 @@ Route::group(['middleware'=>'auth'],function(){
     Route::post('profile', 'ProfileController@store')->name('profile.post');
     Route::put('profile', 'ProfileController@update')->name('profile.update');
     
-    });
+    // 日報
+    Route::resource('report','ReportController', ['only' => ['index', 'create', 'edit', 'store', 'update','destroy']]);
+});
+    
