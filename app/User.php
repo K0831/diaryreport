@@ -34,4 +34,8 @@ class User extends Authenticatable
     public function reports(){
         return $this->hasMany('App\Report');
     }
+    
+    public function plans(){
+        return $this->hasOne('App\Plan')->withDefault();
+    }
 }

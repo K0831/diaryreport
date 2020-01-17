@@ -10,38 +10,25 @@ use DB;
 
 class ProfileController extends Controller
 {
-    // protected $redirectTo = '/';
-    
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function index(){
+        $user = Auth::user();
+        $profiles  = $user->profiles()->orderBy('id','desc')->first();
+     
+        
+        return view('setting.profile_index',['profiles'=>$profiles]);
+    }
     
     public function create(){
         
-            $user = Auth::user();
-            $count = $user->profiles()->count();
-    
-            if($count===0){
-                 return view('setting.profile');
-            }
-            else{
-                $profiles = $user->profiles()->orderBy('id','desc')->first();
-               
-                $is_image = false;
-                if (
-                    Storage::disk('local')->exists('public/profile_images/' . Auth::id() . '.jpg')) {
-                    $is_image = true;
-                }
-            
-                 return view('setting.edit', ['profiles'=>$profiles,
-                                             'is_image'=>$is_image,]);
-            } 
+        return view('profile.create');
         
+    } 
+    
+    public function edit($id){
+        $profiles = Profile::find($id);
+        return view('profile.edit', ['profiles'=>$profiles]);
         
-    }
-    
-    
+    } 
     
     public function store(Request $request)
     {   
@@ -50,28 +37,27 @@ class ProfileController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:191',
             'content' => 'required|string|max:191',
-            'image_url' => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image_url' => 'required|file|image|max:2048'
         ]);
         
-        $request->user()->profiles()->create([
-            'name'=>$request->name,
-            'content' => $request->content,
-            'user_id'=>Auth::user()->id,
-        ]);
+        $profile = new Profile();
+        $profile->image_url = $request->image_url->storeAs('public/profile_images', Auth::id() . '.jpg');
+        $profile->name = $request->name;
+        $profile->content = $request->content;
+        $profile->user_id = Auth::user()->id;
+        $profile->save();
         
         $user = Auth::user();
         $profiles = $user->profiles()->orderBy('id','desc')->first();
-        $reports = $user->reports()->orderBy('id','desc')->get();
+        // $reports = $user->reports()->orderBy('id','desc')->get();
         
-        $request->image_url->storeAs('public/profile_images', Auth::id() . '.jpg');
-        $is_image = false;
-        if (Storage::disk('local')->exists('public/profile_images/' . Auth::id() . '.jpg')) {
-            $is_image = true;
-        }
         
-        return view('welcome', ['is_image' => $is_image,
-                                'profiles'=>$profiles,
-                                'reports'=>$reports]);
+        // $is_image = false;
+        // if (Storage::disk('local')->exists('public/profile_images/' . Auth::id() . '.jpg')) {
+        //     $is_image = true;
+        // }
+        
+        return view('setting.profile_index',['profiles'=>$profiles]);
     }
     
     public function update(Request $request,$id){
@@ -79,29 +65,21 @@ class ProfileController extends Controller
         $this->validate($request, [
             'name' => 'string|max:191',
             'content' => 'string|max:191',
-            'image_url' => 'file|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'image_url' => 'file|image|max:2048'
         ]);
         $user = Auth::user();
         
-        $profiles = $user->profiles()->find($id);
-        $profiles->name = $request->name;
-        $profiles->content = $request->content;
-        $profiles->save();
-        
-        $profiles = $user->profiles()->orderBy('id','desc')->first();
-        $reports = $user->reports()->orderBy('id','desc')->get();
-        
-        
-        $requests->image_url->storeAs('public/profile_images', Auth::id() . '.jpg');
-        $is_image = false;
-        if (Storage::disk('local')->exists('public/profile_images/' . Auth::id() . '.jpg')) {
-            $is_image = true;
+        $profile = $user->profiles()->find($id);
+        if (\Auth::id() === $profile->user_id) {
+            if ($request->hasFile('image_url')){ 
+                $profile->image_url = $request->file('image_url')->storeAs('public/profile_images', Auth::id() . '.jpg');
+            }
+            $profile->name = $request->name;
+            $profile->content = $request->content;
+            $profile->save();
         }
-        
-        
-        return view('welcome', ['is_image' => $is_image,
-                                '$profiles'=>$profiles,
-                                'reports'=>$reports]);
+        $profiles = $user->profiles()->orderBy('id','desc')->first();
+        return view('setting.profile_index',['profiles'=>$profiles]);
         
     }
 }

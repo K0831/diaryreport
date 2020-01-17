@@ -13,7 +13,10 @@ class ReportController extends Controller
         
         $user = Auth::user();
         $reports = $user->reports()->orderBy('id','desc')->get();
-        return view('report.index', ['reports'=>$reports]);
+        $count = $user->reports()->count();
+        
+        return view('setting.report_index', ['reports'=>$reports,
+                                             'count'=>$count]);
         }
     
     public function create(){
@@ -37,9 +40,11 @@ class ReportController extends Controller
         ]);
 
         $user = Auth::user();
+        $count = $user->reports()->count();
         $reports = $user->reports()->orderBy('id','desc')->get();
         
-        return view('report.index',['reports'=>$reports]);
+        return view('setting.report_index',['reports'=>$reports,
+                                            'count'=>$count]);
         
     }
     
@@ -56,30 +61,37 @@ class ReportController extends Controller
             'content' => 'string|max:191',
             'time' => 'integer|numeric|digits_between:1,3',
         ]);
+        $user = Auth::user();
         
-        $report = Auth::user()->reports()->find($id);
+        $report = $user->reports()->find($id);
         if (\Auth::id() === $report->user_id) {
-            $report->title=$request->title;
+            $report->title = $request->title;
             $report->content = $request->content;
-            $report->time=$request->time;
+            $report->time = $request->time;
             $report->save();
         }
         
-        $user = Auth::user();
+        $count = $user->reports()->count();
         $reports = $user->reports()->orderBy('id','desc')->get();
         
-        return view('report.index',['reports'=>$reports]);
+        return view('setting.report_index',['reports'=>$reports,
+                                            'count'=>$count]);
     }
     
     
     public function destroy($id){
+        $user = Auth::user();
         
-        $report = Auth::user()->reports()->find($id);
+        $report = $user->reports()->find($id);
         if (\Auth::id() === $report->user_id) {
-            $report->delete();
+        $report->delete();
         }
         
-        return back();
+        $count = $user->reports()->count();
+        $reports = $user->reports()->orderBy('id','desc')->get();
+        
+        return view('setting.report_index',['reports'=>$reports,
+                                            'count'=>$count]);
 
     }
     

@@ -3,13 +3,11 @@
 @section('content')
 
 @if(Auth::check())
-    <div class="row">
-        <div class="col-sm-8 offset-sm-2 mypage">
-               @include('layouts.mypage_profile')
-               @include('setting.report')
-        </div>
-    </div>
+
+         @include('layouts.mypage_profile')
+         
 @else
+
 <div class="center">
     <div class="text-center">
         <h1 class="welcome-h1">DiaryReport</h1>

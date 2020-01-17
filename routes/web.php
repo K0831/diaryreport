@@ -25,10 +25,9 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 // ログイン認証
 Route::group(['middleware'=>'auth'],function(){
     // プロフィール
-    Route::get('profile', 'ProfileController@create')->name('profile.get');
-    Route::post('profile', 'ProfileController@store')->name('profile.post');
-    Route::put('profile', 'ProfileController@update')->name('profile.update');
-    
+    Route::resource('profile', 'ProfileController',['only'=>['index','create','edit','store','update']]);
+    // 計画
+    Route::resource('plan','PlanController',['only'=>['index','create','edit','store','update']]);
     // 日報
     Route::resource('report','ReportController', ['only' => ['index', 'create', 'edit', 'store', 'update','destroy']]);
 });

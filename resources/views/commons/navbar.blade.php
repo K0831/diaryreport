@@ -13,7 +13,7 @@
                 @if(Auth::check())
                 
                 <li class="nav-item">{!! link_to_route('mypage.get','MyPage',[],['class'=>'nav-link']) !!}</li>
-                 <li class="nav-item">{!! link_to_route('profile.get','プロフィール',[],['class'=>'nav-link']) !!}</li>
+                <li class="nav-item">{!! link_to_route('profile.index','プロフィール',[],['class'=>'nav-link']) !!}</li>
                 <li class="nav-item">{!! link_to_route('logout.get','LogOut',[],['class'=>'nav-link']) !!}</li>
         
                 @else
