@@ -29,8 +29,7 @@
             </div>
         </div>
         @endforeach
-        
-       
+            {{ $reports->links('pagination::bootstrap-4') }}
 @endif
 
 <!--<div class="row">-->

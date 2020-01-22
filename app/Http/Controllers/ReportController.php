@@ -12,8 +12,8 @@ class ReportController extends Controller
     public function index(){
         
         $user = Auth::user();
-        $reports = $user->reports()->orderBy('id','desc')->get();
         $count = $user->reports()->count();
+        $reports = $user->reports()->orderBy('id','desc')->paginate(3);
         
         return view('setting.report_index', ['reports'=>$reports,
                                              'count'=>$count]);
@@ -41,7 +41,7 @@ class ReportController extends Controller
 
         $user = Auth::user();
         $count = $user->reports()->count();
-        $reports = $user->reports()->orderBy('id','desc')->get();
+        $reports = $user->reports()->orderBy('id','desc')->paginate(3);
         
         return view('setting.report_index',['reports'=>$reports,
                                             'count'=>$count]);
@@ -50,8 +50,7 @@ class ReportController extends Controller
     
     public function edit($id){
         $reports = Report::find($id);
-        
-            return view('report.edit',['reports'=>$reports]);
+        return view('report.edit',['reports'=>$reports]);
         
     }
     
@@ -72,7 +71,7 @@ class ReportController extends Controller
         }
         
         $count = $user->reports()->count();
-        $reports = $user->reports()->orderBy('id','desc')->get();
+        $reports = $user->reports()->orderBy('id','desc')->paginate(3);
         
         return view('setting.report_index',['reports'=>$reports,
                                             'count'=>$count]);
@@ -88,7 +87,7 @@ class ReportController extends Controller
         }
         
         $count = $user->reports()->count();
-        $reports = $user->reports()->orderBy('id','desc')->get();
+        $reports = $user->reports()->orderBy('id','desc')->paginate(3);
         
         return view('setting.report_index',['reports'=>$reports,
                                             'count'=>$count]);
