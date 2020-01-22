@@ -4,7 +4,7 @@
 
 @if(Auth::check())
 
-         @include('layouts.mypage_profile')
+         @include('layouts.mypage')
          
 @else
 
